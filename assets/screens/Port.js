@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+
 import {
   Animated,
   Text,
@@ -9,12 +10,12 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
-  StatusBar,
 } from 'react-native';
-import { Dimensions } from 'react-native';
+
 
 const Port = () => {
   const colorAnim = useRef(new Animated.Value(0)).current;
+  
   const scrollRef = useRef();
   const sectionPositions = useRef([]);
 
@@ -54,215 +55,216 @@ const Port = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-      <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-      <View style={{ flex: 1 }}>
-        <View style={{ alignItems: 'center', paddingVertical: 20 }}>
-          <Image source={require('../images/doctorr9edit.jpg')} style={{ height: 80, width: 80, borderRadius: 40 }} />
-          <Animated.Text style={{ fontSize: 24, color: textColor, fontWeight: '400', marginTop: 10 }}>
-            Dhanunjay Thalluri
-          </Animated.Text>
-          <Text style={{ fontSize: 16, color: '#4B5563', fontWeight: '400' }}>Java Full Stack Developer</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingVertical: 30, paddingHorizontal: 10,}}>
+      <View style={{flex:1}}>
+
+     
+      <View style={{ alignItems: 'center', paddingVertical: 20 }}>
+        <Image source={require('../images/myprofile.jpg')} style={{ height: 80, width: 80, borderRadius: 40 }} />
+        <Animated.Text style={{ fontSize: 24, color: textColor, fontWeight: '400', marginTop: 10 }}>
+          Dhanunjay Thalluri
+        </Animated.Text>
+        <Text style={{ fontSize: 16, color: '#4B5563', fontWeight: '400' }}>Java Full Stack Developer</Text>
+      </View>
+
+      <View style={styles.tabContainer}>
+        {['About', 'Projects', 'Skills', 'Contact'].map((tab, index) => (
+          <TouchableOpacity key={index} onPress={() => scrollToSection(index)} activeOpacity={0.7}>
+            <Text style={styles.tabText}>{tab}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <ScrollView
+        ref={scrollRef}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        {/* About */}
+        <View onLayout={(e) => handleLayout(e, 0)} style={styles.section}>
+          <Text style={styles.sectionHeading}>About Me</Text>
+          <Text style={styles.sectionText}>
+            I'm a Java Full Stack Developer with a strong foundation in building scalable backend systems using Spring Boot,
+            and dynamic, responsive user interfaces with React and React Native. I specialize in developing RESTful APIs,
+            real-time applications, and full-cycle development from database to frontend.
+          </Text>
         </View>
 
-        <View style={styles.tabContainer}>
-          {['About', 'Projects', 'Skills', 'Contact'].map((tab, index) => (
-            <TouchableOpacity key={index} onPress={() => scrollToSection(index)} activeOpacity={0.7}>
-              <Text style={styles.tabText}>{tab}</Text>
-            </TouchableOpacity>
+        {/* Projects */}
+        <View onLayout={(e) => handleLayout(e, 1)} style={styles.section}>
+          <Text style={styles.sectionHeading}>Projects</Text>
+
+          {/* Project Card Template */}
+          {[
+            {
+              title: 'Expenses Tracker',
+              tech: ['React Native', 'Spring Boot'],
+              description: 'A full-stack mobile app to track income, expenses, transfers and set monthly budget with real-time balance updates.',
+              link: 'https://github.com/DhanunJay3839/ExpensesTrackerApp',
+            },
+            {
+              title: 'Weather App',
+              tech: ['React Native', 'Open Weather API'],
+              description: 'Displays current, hourly and 7-day forecast, with windspeed, humidity, sunset/sunrise times.',
+              link: 'https://github.com/DhanunJay3839/Weather-App',
+            },
+            {
+              title: 'Messenger App',
+              tech: ['React Native', 'Spring Boot'],
+              description: 'A real-time chat app using WebSocket (STOMP) with instant messaging support.',
+              link: 'https://github.com/DhanunJay3839/ChattingApp',
+            },
+            {
+              title: 'Ecommerce Website',
+              tech: ['ReactJS', 'Spring Boot'],
+              description: 'A full-stack eCommerce app with cart, authentication, product listing, and order management.',
+              link: 'https://github.com/DhanunJay3839/Ecommerce-Application',
+            },
+          ].map((proj, idx) => (
+            <View
+              key={idx}
+              style={{
+                height: 198,
+                width: 358,
+                padding: 17,
+                borderWidth: 1,
+                borderColor: '#F3F4F6',
+                borderRadius: 12,
+                alignSelf: 'center',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                marginTop: idx === 0 ? 0 : 20,
+              }}
+            >
+              <Text style={{ fontSize: 16, color: '#111827', fontWeight: '500' }}>{proj.title}</Text>
+              <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+                {proj.tech.map((tech, i) => (
+                  <View
+                    key={i}
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: 24,
+                      paddingHorizontal: 10,
+                      backgroundColor: ['ReactJS', 'React Native'].includes(tech)
+                        ? '#DBEAFE'
+                        : tech.includes('Spring') || tech === 'Open Weather API'
+                        ? '#F3E8FF'
+                        : '#DCFCE7',
+                      borderRadius: 60,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: tech.includes('Spring')
+                          ? '#16A34A'
+                          : tech === 'Open Weather API'
+                          ? '#9333EA'
+                          : '#2563EB',
+                        fontWeight: '400',
+                      }}
+                    >
+                      {tech}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+              <Text style={{ fontSize: 14, color: '#4B5563', fontWeight: '400', marginTop: 10 }}>{proj.description}</Text>
+              <TouchableOpacity onPress={() => Linking.openURL(proj.link)} activeOpacity={0.7}>
+                <View style={{ marginTop: 10 }}>
+                  <Text style={{ fontSize: 14, color: '#2563EB', fontWeight: '500' }}>View on Github ›</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           ))}
         </View>
 
-        <ScrollView
-          ref={scrollRef}
-          style={{ flex: 1 }}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100 }}
-        >
-          {/* About Section */}
-          <View onLayout={(e) => handleLayout(e, 0)} style={styles.section}>
-            <Text style={styles.sectionHeading}>About Me</Text>
-            <Text style={styles.sectionText}>
-              I'm a Java Full Stack Developer with a strong foundation in building scalable backend systems using Spring Boot,
-              and dynamic, responsive user interfaces with React and React Native. I specialize in developing RESTful APIs,
-              real-time applications, and full-cycle development from database to frontend.
-            </Text>
-          </View>
-
-          {/* Projects Section */}
-          <View onLayout={(e) => handleLayout(e, 1)} style={styles.section}>
-            <Text style={styles.sectionHeading}>Projects</Text>
+        {/* Skills */}
+        <View onLayout={(e) => handleLayout(e, 2)} style={{ padding: 10, marginTop: 50 }}>
+          <Text style={styles.sectionHeading}>Skills</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20, alignSelf: 'center' }}>
             {[
               {
-                title: 'Expenses Tracker',
-                tech: ['React Native', 'Spring Boot'],
-                description: 'A full-stack mobile app to track income, expenses, transfers and set monthly budget with real-time balance updates.',
-                link: 'https://github.com/DhanunJay3839/ExpensesTrackerApp',
+                title: 'Frontend',
+                list: ['HTML', 'CSS', 'ReactJS', 'React Native', 'JavaScript'],
               },
               {
-                title: 'Weather App',
-                tech: ['React Native', 'Open Weather API'],
-                description: 'Displays current, hourly and 7-day forecast, with windspeed, humidity, sunset/sunrise times.',
-                link: 'https://github.com/DhanunJay3839/Weather-App',
+                title: 'Backend',
+                list: ['Java', 'Spring Boot', 'RESTful APIs', 'JSP', 'Servlets'],
               },
               {
-                title: 'Messenger App',
-                tech: ['React Native', 'Spring Boot'],
-                description: 'A real-time chat app using WebSocket (STOMP) with instant messaging support.',
-                link: 'https://github.com/DhanunJay3839/ChattingApp',
+                title: 'Database',
+                list: ['MySQL', 'JDBC', 'Hibernate'],
               },
               {
-                title: 'Ecommerce Website',
-                tech: ['ReactJS', 'Spring Boot'],
-                description: 'A full-stack eCommerce app with cart, authentication, product listing, and order management.',
-                link: 'https://github.com/DhanunJay3839/Ecommerce-Application',
+                title: 'Tools',
+                list: ['Git', 'GitHub', 'Postman', 'VS Code', 'IntelliJ IDEA'],
               },
-            ].map((proj, idx) => (
+            ].map((skill, idx) => (
               <View
                 key={idx}
                 style={{
-                  height: 198,
-                  width: '90%',
-                  padding: 17,
+                  height: 146,
+                  width: 171,
+                  borderRadius: 12,
+                  padding: 10,
                   borderWidth: 1,
                   borderColor: '#F3F4F6',
-                  borderRadius: 12,
-                  alignSelf: 'center',
                   shadowColor: '#000',
                   shadowOffset: { width: 0, height: 2 },
                   shadowOpacity: 0.25,
                   shadowRadius: 3.84,
-                  marginTop: idx === 0 ? 0 : 20,
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#111827', fontWeight: '500' }}>{proj.title}</Text>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 10 }}>
-                  {proj.tech.map((tech, i) => (
-                    <View
-                      key={i}
-                      style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: 24,
-                        paddingHorizontal: 10,
-                        backgroundColor: ['ReactJS', 'React Native'].includes(tech)
-                          ? '#DBEAFE'
-                          : tech.includes('Spring') || tech === 'Open Weather API'
-                          ? '#F3E8FF'
-                          : '#DCFCE7',
-                        borderRadius: 60,
-                        marginRight: 10,
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          color: tech.includes('Spring')
-                            ? '#16A34A'
-                            : tech === 'Open Weather API'
-                            ? '#9333EA'
-                            : '#2563EB',
-                          fontWeight: '400',
-                        }}
-                      >
-                        {tech}
-                      </Text>
-                    </View>
+                <Text style={{ fontSize: 16, color: 'black', fontWeight: '500' }}>{skill.title}</Text>
+                <View style={{ marginTop: 10 }}>
+                  {skill.list.map((item, i) => (
+                    <Text key={i} style={{ fontSize: 14, color: '#4B5563', fontWeight: '400' }}>
+                      {item}
+                    </Text>
                   ))}
                 </View>
-                <Text style={{ fontSize: 14, color: '#4B5563', fontWeight: '400', marginTop: 10 }}>{proj.description}</Text>
-                <TouchableOpacity onPress={() => Linking.openURL(proj.link)} activeOpacity={0.7}>
-                  <Text style={{ fontSize: 14, color: '#2563EB', fontWeight: '500', marginTop: 10 }}>
-                    View on Github ›
-                  </Text>
-                </TouchableOpacity>
               </View>
             ))}
           </View>
+        </View>
 
-          {/* Skills Section */}
-          <View onLayout={(e) => handleLayout(e, 2)} style={{ padding: 10, marginTop: 50 }}>
-            <Text style={styles.sectionHeading}>Skills</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20, justifyContent: 'center' }}>
-              {[
-                {
-                  title: 'Frontend',
-                  list: ['HTML', 'CSS', 'ReactJS', 'React Native', 'JavaScript'],
-                },
-                {
-                  title: 'Backend',
-                  list: ['Java', 'Spring Boot', 'RESTful APIs', 'JSP', 'Servlets'],
-                },
-                {
-                  title: 'Database',
-                  list: ['MySQL', 'JDBC', 'Hibernate'],
-                },
-                {
-                  title: 'Tools',
-                  list: ['Git', 'GitHub', 'Postman', 'VS Code', 'IntelliJ IDEA'],
-                },
-              ].map((skill, idx) => (
-                <View
-                  key={idx}
-                  style={{
-                    height: 146,
-                    width: '42%',
-                    borderRadius: 12,
-                    padding: 10,
-                    borderWidth: 1,
-                    borderColor: '#F3F4F6',
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.84,
-                    marginBottom: 20,
-                  }}
-                >
-                  <Text style={{ fontSize: 16, color: 'black', fontWeight: '500' }}>{skill.title}</Text>
-                  <View style={{ marginTop: 10 }}>
-                    {skill.list.map((item, i) => (
-                      <Text key={i} style={{ fontSize: 14, color: '#4B5563', fontWeight: '400' }}>
-                        {item}
-                      </Text>
-                    ))}
-                  </View>
-                </View>
-              ))}
+        {/* Contact */}
+        <View onLayout={(e) => handleLayout(e, 3)} style={{ padding: 10, minHeight: 300, marginTop: 180 }}>
+          <TouchableOpacity onPress={() => Linking.openURL('mailto:thalluridhanunjay@gmail.com')} activeOpacity={0.7}>
+            <View style={styles.contactButtonGray}>
+              <Text style={styles.contactButtonTextDark}>Email</Text>
             </View>
-          </View>
+          </TouchableOpacity>
 
-          {/* Contact Section */}
-          <View onLayout={(e) => handleLayout(e, 3)} style={{ padding: 10, minHeight: 300, marginTop: 180 }}>
-            <TouchableOpacity onPress={() => Linking.openURL('mailto:thalluridhanunjay@gmail.com')} activeOpacity={0.7}>
-              <View style={styles.contactButtonGray}>
-                <Text style={styles.contactButtonTextDark}>Email</Text>
-              </View>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => Linking.openURL('https://www.linkedin.com/in/dhanunjay-thalluri-47a5b5244/')}
+            activeOpacity={0.7}
+          >
+            <View style={[styles.contactButton, { backgroundColor: '#0077B5' }]}>
+              <Text style={styles.contactButtonText}>LinkedIn</Text>
+            </View>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => Linking.openURL('https://www.linkedin.com/in/dhanunjay-thalluri-47a5b5244/')}
-              activeOpacity={0.7}
-            >
-              <View style={[styles.contactButton, { backgroundColor: '#0077B5' }]}>
-                <Text style={styles.contactButtonText}>LinkedIn</Text>
-              </View>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => Linking.openURL('https://github.com/DhanunJay3839')} activeOpacity={0.7}>
+            <View style={[styles.contactButton, { backgroundColor: '#111827' }]}>
+              <Text style={styles.contactButtonText}>GitHub</Text>
+            </View>
+          </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => Linking.openURL('https://github.com/DhanunJay3839')} activeOpacity={0.7}>
-              <View style={[styles.contactButton, { backgroundColor: '#111827' }]}>
-                <Text style={styles.contactButtonText}>GitHub</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => Linking.openURL('https://github.com/DhanunJay3839/Resume')} activeOpacity={0.7}>
-              <View style={[styles.contactButton, { backgroundColor: '#1E40AF' }]}>
-                <Text style={styles.contactButtonText}>Download Resume</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View>
+          {/* Optional Resume Button */}
+          <TouchableOpacity onPress={() => Linking.openURL('https://github.com/DhanunJay3839/Resume')} activeOpacity={0.7}>
+            <View style={[styles.contactButton, { backgroundColor: '#1E40AF' }]}>
+              <Text style={styles.contactButtonText}>Download Resume</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+       </View>
     </SafeAreaView>
   );
 };
@@ -300,22 +302,20 @@ const styles = StyleSheet.create({
   },
   contactButton: {
     height: 48,
-    width: '90%',
+    width: 358,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 15,
-    alignSelf: 'center',
   },
   contactButtonGray: {
     height: 48,
-    width: '90%',
+    width: 358,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F3F4F6',
     marginTop: 20,
-    alignSelf: 'center',
   },
   contactButtonText: {
     fontSize: 16,
