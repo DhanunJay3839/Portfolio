@@ -10,9 +10,13 @@ import {
   ScrollView,
   Linking,
 } from 'react-native';
+import { Dimensions } from 'react-native';
 
 const Port = () => {
   const colorAnim = useRef(new Animated.Value(0)).current;
+  const { width: screenWidth } = Dimensions.get('window');
+  const mobileWidth = 390;   // iPhone 13 width
+  const mobileHeight = 844;  // iPhone 13 height
   const scrollRef = useRef();
   const sectionPositions = useRef([]);
 
@@ -52,7 +56,35 @@ const Port = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingVertical: 30, paddingHorizontal: 10,}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#E5E7EB',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 20,
+      }}
+    >
+      {/* This is the mobile phone frame */}
+      <View
+        style={{
+          width: mobileWidth,
+          height: mobileHeight,
+          backgroundColor: 'white',
+          borderRadius: 30,
+          borderWidth: 10,
+          borderColor: '#111827',
+          overflow: 'hidden',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 10,
+        }}
+      >
+    <SafeAreaView style={{ flex: 1}}>
+      <View style={{flex:1,borderWidth:1,borderColor:'black',height}}>
+
+     
       <View style={{ alignItems: 'center', paddingVertical: 20 }}>
         <Image source={require('../images/doctorr9edit.jpg')} style={{ height: 80, width: 80, borderRadius: 40 }} />
         <Animated.Text style={{ fontSize: 24, color: textColor, fontWeight: '400', marginTop: 10 }}>
@@ -258,7 +290,10 @@ const Port = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+       </View>
     </SafeAreaView>
+    </View>
+    </View>
   );
 };
 
